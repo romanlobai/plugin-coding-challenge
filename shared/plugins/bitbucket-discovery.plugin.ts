@@ -16,7 +16,10 @@ export class BitbucketDiscovery implements IPlugin {
     await this.loadSettings(settingId);
   }
 
-  private async loadSettings(settingId: string) {}
+  private async loadSettings(settingId: string) {
+    // Hardcoded settings
+    this.accessToken = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJPbmxpbmUgSldUIEJ1aWxkZXIiLCJpYXQiOjE2NjMwNTIxOTksImV4cCI6MTc1Nzc0NjU5OSwiYXVkIjoid3d3LmV4YW1wbGUuY29tIiwic3ViIjoiIiwiR2l2ZW5OYW1lIjoiSm9obm55IiwiU3VybmFtZSI6IlJvY2tldCJ9.U2NYSCcWlqjnHDhWcXUDzIqKl-0podVvP3VT7DKT-RE';
+  }
 
   public async routeRequest(request: any): Promise<any> {}
 
@@ -24,6 +27,8 @@ export class BitbucketDiscovery implements IPlugin {
 
   @PluginRestExtension({ name: 'getRepositoriesWithMetadata', httpVerb: HttpVerb.POST })
   public async getRepositoriesWithMetadata(queryParams: any, body: any) {
-    return 'Hello';
+    // Bitbucket API integration with getting list of repositories and related metadata should be implemented here
+    // Didn't make this integration as it's not the purpose of code challenge
+    return 'getRepositoriesWithMetadata method executed!';
   }
 }
