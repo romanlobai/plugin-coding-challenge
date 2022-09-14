@@ -8,14 +8,14 @@ export class PluginProxyService {
   public async executePluginRestExtensionMethod(data: IExecutePluginRestExtensionMethod) {
     const { httpVerb, providerType, pluginName, pluginMethod, settingId, queryParams, body } = data;
 
-    const pluginClass = await this.getPluginClassByRelatedMetadata({ name: pluginName, type: providerType });
-    const Plugin = new pluginClass();
-    await Plugin.init(settingId);
+    const PluginClass = await this.getPluginClassByRelatedMetadata({ name: pluginName, type: providerType });
+    const plugin = new PluginClass();
+    await plugin.init(settingId);
 
-    const pluginMethodsList = Object.getOwnPropertyNames(pluginClass.prototype);
+    const pluginMethodsList = Object.getOwnPropertyNames(PluginClass.prototype);
 
     const foundPluginMethod = pluginMethodsList.find((method: string) => {
-      const options: RestExtensionOptions = Plugin[method].restExtensionMetadata;
+      const options: RestExtensionOptions = plugin[method].restExtensionMetadata;
 
       const restExtensionSupported: boolean = Boolean(options);
       const requestedParamsCoincide: boolean = options?.name === pluginMethod && options?.httpVerb === httpVerb;
@@ -27,7 +27,7 @@ export class PluginProxyService {
       throw new NotFoundException('Plugin method which satisfy requested parameters is not found');
     }
 
-    return Plugin[foundPluginMethod](queryParams, body);
+    return plugin[foundPluginMethod](queryParams, body);
   }
 
   private async getPluginClassByRelatedMetadata({ name, type }: Partial<PluginOptions>) {
