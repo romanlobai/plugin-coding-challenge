@@ -1,5 +1,3 @@
-import { type } from "os";
-
 export interface IClientOptions {
   accessToken: string;
 }
